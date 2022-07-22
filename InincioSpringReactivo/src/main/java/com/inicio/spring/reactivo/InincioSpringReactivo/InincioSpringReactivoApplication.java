@@ -21,7 +21,7 @@ public class InincioSpringReactivoApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        Flux<String> flujoNombre = Flux.just("Andres", "Pedro", "Miguel", "Strings.EMPTY", "Diego")
+        Flux<String> fluxNames = Flux.just("Andres", "Pedro", "Miguel", "Strings.EMPTY", "Diego")
                 .map(String::toUpperCase)
                 .doOnNext(e -> {
                     if (e.isEmpty()) {
@@ -32,9 +32,9 @@ public class InincioSpringReactivoApplication implements CommandLineRunner {
                 })
                 .map(String::toLowerCase);
 
-        //flujoNombre.subscribe(e -> log.info(e));
-        //flujoNombre.subscribe(log::error);
-        flujoNombre.subscribe(log::info,
+        //fluxNames.subscribe(e -> log.info(e));
+        //fluxNames.subscribe(log::error);
+        fluxNames.subscribe(log::info,
                 error -> log.error(error.getMessage()),
                 new Runnable() {
                     @Override
