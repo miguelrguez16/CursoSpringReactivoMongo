@@ -23,11 +23,35 @@ public class InincioSpringReactivoApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        ejemploFlatMap();
+        ejemploUserToString();
     }
 
+    public void ejemploUserToString() throws Exception {
+        final List<User> usersList = new ArrayList<>();
+        usersList.add(new User().setName("Andres").setLastName("Guzman"));
+        usersList.add(new User().setName("Pedro").setLastName("Fernandez"));
+        usersList.add(new User().setName("Miguel").setLastName("Rguez"));
+        usersList.add(new User().setName("Diego").setLastName("Farcia"));
+        usersList.add(new User().setName("Bruce").setLastName("Lee"));
+        usersList.add(new User().setName("Bruce").setLastName("Guzman"));
+        usersList.add(new User().setName("Andres").setLastName("Willies"));
+
+        Flux.fromIterable(usersList)
+                .map(user ->
+                    user.getName().toUpperCase().concat(user.getLastName().toUpperCase())
+                )
+                .flatMap(name -> {
+                    if(name.contains("BRUCE"))
+                        return Mono.just(name); // emite un usuario
+                    else
+                        return Mono.empty();
+                })
+                .map( name -> name.toLowerCase())
+                .subscribe(u-> log.info(u.toString()));
+
+    }
     public void ejemploFlatMap() throws Exception {
-        List<String> usersList = new ArrayList<>();
+        final List<String> usersList = new ArrayList<>();
         usersList.add("Andres Guzman");
         usersList.add("Pedro Fernandez");
         usersList.add("Miguel Rguez");
