@@ -20,4 +20,13 @@ public class User {
         this.lastName = lastName;
         return this;
     }
+
+    @Override
+    public String toString() {
+        final StringBuilder user = new StringBuilder();
+        user.append(this.getName());
+        user.append(" ");
+        user.append(this.lastName);
+        return user.toString();
+    }
 }

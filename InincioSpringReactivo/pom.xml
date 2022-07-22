@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.inicio.spring.reactivo</groupId>
-	<artifactId>InincioSpringReactivo</artifactId>
+	<artifactId>InicioSpringReactivo</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>InincioSpringReactivo</name>
+	<name>InicioSpringReactivo</name>
 	<description>Init project for Spring Boot Reactive</description>
 	<properties>
 		<java.version>17</java.version>
