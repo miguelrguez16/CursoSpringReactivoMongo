@@ -34,6 +34,8 @@ public class InincioSpringReactivoApplication implements CommandLineRunner {
         rangos.delayElements(Duration.ofSeconds(1))
             .doOnNext(i -> log.info(i.toString()))
                 .blockLast();
+
+        //Thread.sleep(13000); solo con un subscribe
     }
 
     public void exampleInterval() throws Exception{
