@@ -3,6 +3,9 @@ package com.inicio.spring.reactivo.InincioSpringReactivo;
 import com.inicio.spring.reactivo.InincioSpringReactivo.models.Comments;
 import com.inicio.spring.reactivo.InincioSpringReactivo.models.User;
 import com.inicio.spring.reactivo.InincioSpringReactivo.models.UserWithComments;
+import org.apache.commons.logging.Log;
+import org.reactivestreams.Subscriber;
+import org.reactivestreams.Subscription;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -14,6 +17,9 @@ import reactor.core.publisher.Mono;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.CountDownLatch;
 
 @SpringBootApplication
 public class InincioSpringReactivoApplication implements CommandLineRunner {
@@ -26,7 +32,103 @@ public class InincioSpringReactivoApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        exampleRango();
+        ejemploContraPresionLimitRate();
+    }
+
+
+    public void ejemploContraPresionLimitRate() throws Exception {
+        Flux.range(1, 10)
+                .log()
+                .limitRate(5)
+                .subscribe();
+    }
+    public void ejemploContraPresion() throws Exception {
+        Flux.range(1,10)
+                .log() // request(unbounded)
+                .subscribe(new Subscriber<Integer>() {
+                    private Subscription subscription;
+                    private Integer limit = 5; // procesamos por lotes del valor de limit
+                    private Integer consumed = 0;
+                    @Override
+                    public void onSubscribe(Subscription subscription) {
+                        this.subscription = subscription;
+                        subscription.request(limit); // cantidad maxima posible
+                        consumed++;
+
+                    }
+
+                    @Override
+                    public void onNext(Integer integer) {
+                        log.info(integer.toString());
+                        consumed++;
+                        if(consumed== limit){
+                            consumed = 0;
+                            subscription.request(limit);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable throwable) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
+
+    public void ejemploCreateFlux() throws Exception{
+        Flux.create(emitter ->{
+            Timer timer = new Timer();
+            timer.schedule(new TimerTask(){
+                private int cont = 0;
+                @Override
+                public void run() {
+                    emitter.next(++cont); // proximo elemento a emitir
+                    if(cont == 10){
+                        timer.cancel();
+                        emitter.complete(); //marcarlo como completado
+                    }
+                    if (cont == 5){
+                        timer.cancel();
+                        emitter.error( new InterruptedException("Flux en 5"));
+                    }
+                }
+            },1000,1000);
+        })
+//            .doOnNext( o -> log.info(o.toString()))
+//            .doOnComplete( () -> log.info("END"))
+            .subscribe(
+                    next -> log.info(next.toString()),
+                    error -> log.error(error.getMessage()),
+                    ()-> log.info("END")
+            ); // al subscribirnos pedimos al flujo que nos envie to do, la contrapresion evita esto
+            // contrapresion el suscriptor pide menos carga
+    }
+
+    public void ejemploIntervaloInfinito() throws Exception{
+        CountDownLatch latch = new CountDownLatch(1);
+
+        Flux.interval(Duration.ofSeconds(1))
+//                .doOnTerminate( ()-> latch.countDown())
+                .doOnTerminate(latch::countDown)   // se ejecuta falle o no falle el flujo
+                .flatMap( i -> {
+                    if(i >= 5){
+                        return Flux.error(new InterruptedException("Solo hasta 5"));
+                    }
+                    else {
+                        return Flux.just(i);
+                    }
+                })
+                .map(a -> "Hola " + a)
+//                .doOnNext(i -> log.info(i.toString()))
+//                .blockLast();
+                .retry(2) // número de veces que intentará ejecutarse despues de un error
+                .subscribe(i -> log.info(i.toString()) , e -> log.error(e.getMessage()));
+
+        latch.await();
     }
 
     public void exampleRango() throws Exception{
