@@ -10,6 +10,9 @@ public class Product {
     @Id
     private String id;
 
+    public Product() {
+    }
+
     private String name;
     private Double price;
     private Date createAt;
