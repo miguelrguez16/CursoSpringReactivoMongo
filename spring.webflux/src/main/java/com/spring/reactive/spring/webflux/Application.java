@@ -40,6 +40,9 @@ public class Application implements CommandLineRunner {
 			new Product().setName("ASUS").setPrice(33.99),
 			new Product().setName("Realme").setPrice(9.99),
 			new Product().setName("Ryzen 5").setPrice(9.99),
+			new Product().setName("Tronsmart Element").setPrice(45.99),
+			new Product().setName("Ebook").setPrice(36.00),
+			new Product().setName("Huawei FreeBuds Pro").setPrice(119.99),
 			new Product().setName("Nvidia").setPrice(684784.99)
 		).flatMap( product ->{
 			product.setCreateAt(new Date());

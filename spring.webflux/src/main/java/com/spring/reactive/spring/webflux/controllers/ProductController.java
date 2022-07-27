@@ -9,7 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.thymeleaf.spring5.context.webflux.ReactiveDataDriverContextVariable;
 import reactor.core.publisher.Flux;
+
+import java.time.Duration;
 
 @Controller
 public class ProductController {
@@ -30,5 +33,48 @@ public class ProductController {
         model.addAttribute("titulo","Listado de productos");
 
         return "listar";
+    }
+
+
+    @GetMapping("/listar-dataDriver")
+    public String listarDataDriver(Model model){
+        Flux<Product> products = productsDao.findAll()
+                .map(product -> product.setName(product.getName().toUpperCase()))
+                .delayElements(Duration.ofSeconds(1));
+
+        products.subscribe(product -> log.info(product.getName()));
+        // ReactiveDataDriver variable de contexto para manejar el tamaño del flujo
+        model.addAttribute("products", new ReactiveDataDriverContextVariable(products, 2)); // cuando se llame al método, se subscribirá al observable
+        model.addAttribute("titulo","Listado de productos");
+
+        return "listar";
+    }
+
+    @GetMapping("/listar-full")
+    public String listarFull(Model model){
+        Flux<Product> products = productsDao.findAll()
+                .map(product -> product.setName(product.getName().toUpperCase()))
+                .repeat(100);
+
+        products.subscribe(product -> log.info(product.getName()));
+
+        model.addAttribute("products",products); // cuando se llame al método, se subscribirá al observable
+        model.addAttribute("titulo","Listado de productos");
+
+        return "listar";
+    }
+
+    @GetMapping("/listar-chuncked")
+    public String listarChuncked(Model model){
+        Flux<Product> products = productsDao.findAll()
+                .map(product -> product.setName(product.getName().toUpperCase()))
+                .repeat(100);
+
+        products.subscribe(product -> log.info(product.getName()));
+
+        model.addAttribute("products",products); // cuando se llame al método, se subscribirá al observable
+        model.addAttribute("titulo","Listado de productos");
+
+        return "listar-chuncked";
     }
 }
