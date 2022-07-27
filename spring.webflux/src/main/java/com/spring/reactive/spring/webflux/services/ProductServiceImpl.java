@@ -19,12 +19,19 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
+    public Flux<Product> findAllWithNameUpperCase() {
+        return productsDao.findAll()
+                .map(product ->
+                        product.setName(product.getName().toUpperCase()));
+    }
+    @Override
     public Mono<Product> findById(String id) {
         return productsDao.findById(id);
     }
     @Override
     public Mono<Product> save(Product product) {
         return productsDao.save(product);
+//        return product.getId()== null ? productsDao.save(product) : productsDao.insert(product);
     }
 
     @Override
