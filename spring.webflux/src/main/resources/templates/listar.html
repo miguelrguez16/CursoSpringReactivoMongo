@@ -7,31 +7,34 @@
 <body>
 
 
-    <h1 th:text="${titulo}"></h1>
-    <div th:if="${param.error != null}" th:text="${param.error}"></div>
-    <div th:if="${param.success != null}" th:text="${param.success}"></div>
+<h1 th:text="${titulo}"></h1>
+<div th:if="${param.error != null}" th:text="${param.error}"></div>
+<div th:if="${param.success != null}" th:text="${param.success}"></div>
 
-    <a th:href="@{/form}">Nuevo Producto</a>
-    <table>
-        <thead>
-            <tr>
-                <th>id</th>
-                <th>nombre</th>
-                <th>precio</th>
-                <th>fecha</th>
-                <th>editar</th>
-            </tr>
-        </thead>
-        <tbody>
-        <tr th:each="product: ${products}">
-            <td th:text="${product.id}"></td>
-            <td th:text="${product.name}"></td>
-            <td th:text="${product.price}"></td>
-            <td th:text="${product.createAt}"></td>
-            <td> <a th:href="@{/form/} + ${product.id}">EDIT</a></td>
-
-        </tr>
-        </tbody>
-    </table>
+<a th:href="@{/form}">Nuevo Producto</a>
+<table>
+    <thead>
+    <tr>
+        <th>id</th>
+        <th>nombre</th>
+        <th>precio</th>
+        <th>fecha</th>
+        <th>editar</th>
+        <th>eliminar</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="product: ${products}">
+        <td th:text="${product.id}"></td>
+        <td th:text="${product.name}"></td>
+        <td th:text="${product.price}"></td>
+        <td th:text="${product.createAt}"></td>
+        <td><a th:href="@{/form/} + ${product.id}">EDIT</a></td>
+        <td><a th:href="@{/delete/} + ${product.id}"
+               onclick="return confirm('Seguro que desea eliminar el producto')">
+            ELIMINAR</a></td>
+    </tr>
+    </tbody>
+</table>
 </body>
 </html>
