@@ -5,31 +5,37 @@
     <title th:text="${titulo}">Title</title>
 </head>
 <body>
-    <h1 th:text="${titulo}"></h1>
-    <a th:href="@{/listar}">Listar Productos</a>
-    <div>
-        <form th:action="@{/form}" method="post" th:object="${product}">
-            <input th:if="${product.id != null}" type="hidden" th:field="*{id}"/>
-            <label for="name">Nombre</label>
-            <div>
-                <input id="name" name="name" type="text" th:field="*{name}"/>
-            </div>
+<h1 th:text="${titulo}"></h1>
+<a th:href="@{/listar}">Listar Productos</a>
+<div>
+    <form th:action="@{/form}" method="post" th:object="${product}">
+        <input th:if="${product.id != null}" type="hidden" th:field="*{id}"/>
+        <label for="name">Nombre</label>
+        <div>
+            <input id="name" name="name" type="text" th:field="*{name}"/>
+        </div>
+        <small style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></small>
+        <br>
 
-            <label for="price">Precio</label>
-            <div>
-                <input  id="price" name="price" type="number" th:field="*{price}"/>
-            </div>
+        <label for="price">Precio</label>
+        <div>
+            <input id="price" name="price" type="number" th:field="*{price}"/>
+        </div>
+        <small style="color:red" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></small>
+        <br>
 
-            <label for="createAt">Fecha</label>
-            <div>
-                <input id="createAt" name="createAt" type="date" th:field="*{createAt}"/>
-            </div>
+        <label for="createAt">Fecha</label>
+        <div>
+            <input id="createAt" name="createAt" type="date" th:field="*{createAt}"/>
+        </div>
+        <small style="color:red" th:if="${#fields.hasErrors('createAt')}" th:errors="*{createAt}"></small>
+        <br>
 
-            <label for="save">Guardar</label>
-            <div>
-                <input id="save" name="save" type="submit" value="create"/>
-            </div>
-        </form>
-    </div>
+        <label for="save">Guardar</label>
+        <div>
+            <input id="save" name="save" type="submit" th:text="${boton}"/>
+        </div>
+    </form>
+</div>
 </body>
 </html>

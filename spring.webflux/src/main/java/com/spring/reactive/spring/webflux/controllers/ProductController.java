@@ -2,21 +2,23 @@ package com.spring.reactive.spring.webflux.controllers;
 
 import com.spring.reactive.spring.webflux.models.documents.Product;
 import com.spring.reactive.spring.webflux.services.ProductService;
+import jdk.jfr.Frequency;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 import org.thymeleaf.spring5.context.webflux.ReactiveDataDriverContextVariable;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import javax.validation.Valid;
 import java.time.Duration;
+import java.util.Date;
+import java.util.Objects;
 
 @SessionAttributes("product") //guardar el producto en session, para que al editar se guarde el id
 @Controller
@@ -41,6 +43,7 @@ public class ProductController {
     public Mono<String> create(Model model){
         model.addAttribute("product", new Product());
         model.addAttribute("titulo","Nuevo Producto");
+        model.addAttribute("boton","crear");
 
         return Mono.just("form");
     }
@@ -52,6 +55,8 @@ public class ProductController {
 
         model.addAttribute("titulo","Editar Producto");
         model.addAttribute("product",productMono);
+        model.addAttribute("boton","editar");
+
         return Mono.just("form");
     }
 
@@ -78,13 +83,55 @@ public class ProductController {
     }
 
     @PostMapping("/form")
-    public Mono<String> save(Product product, SessionStatus sessionStatus){
-        sessionStatus.setComplete();
-        return productService.save(product).
-                doOnNext(product1 -> log.info("Producto Guardado" + product1.getName()))
-                .thenReturn("redirect:/listar");
+    public Mono<String> save(@Valid @ModelAttribute("product") Product product, BindingResult bindingResult, Model model, SessionStatus sessionStatus){
+        if(bindingResult.hasErrors()){ // si falla se manda de nuevo, al tenerlo persistente se guarda el prodcuto en session
+            model.addAttribute("titulo","Error al validar el producto");
+            model.addAttribute("boton","editar");
+            return Mono.just("form");
+        }else{
+
+            if(product.getCreateAt()==null)
+                product.setCreateAt(new Date());
+
+            return productService.save(product).
+                    doOnNext(product1 -> log.info("Producto Guardado" + product1.getName()))
+                    .thenReturn("redirect:/listar?success=producto+guardado+con+exito");
+        }
+
     }
 
+
+    @GetMapping("/delete/{id}")
+    public Mono<String> delete(@PathVariable String id){
+        return productService.findById(id)
+                .defaultIfEmpty(new Product())
+                .flatMap(product -> {
+                    if(Objects.isNull(product)){
+                        return Mono.error(new InterruptedException("No existe el producto para eliminar"));
+                    }
+                    log.info("Eliminando producto: [" + product.getId()+"]");
+                    return productService.delete(product);
+                })
+                .then(Mono.just("redirect:/listar?success=producto+eliminado"))
+                .onErrorResume(throwable -> Mono.just("redirect:/listar?error=producto+no+existe"));
+
+    }
+
+    @GetMapping("/delete2/{id}")
+    public Mono<String> delete2(@PathVariable String id){
+        return productService.findById(id)
+                .defaultIfEmpty(new Product())
+                .flatMap(product -> {
+                    if(Objects.isNull(product)){
+                        return Mono.error(new InterruptedException("No existe el producto para eliminar"));
+                    }
+                    return Mono.just(product);
+                })
+                .flatMap(productService::delete)
+                .then(Mono.just("redirect:/listar?success=producto+eliminado"))
+                .onErrorResume(throwable -> Mono.just("redirect:/listar?error=producto+no+existe"));
+
+    }
 
 
     @GetMapping("/listar-dataDriver")
