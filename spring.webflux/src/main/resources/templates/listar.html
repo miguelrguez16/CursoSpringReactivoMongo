@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title th:text="${titulo}">Title</title>
+    <link rel="stylesheet" href="../static/style.css" />
 </head>
 <body>
 
-
-<h1 th:text="${titulo}"></h1>
+<h1> Spring Reactive</h1>
+<h2 th:text="${titulo}"></h2>
 <div th:if="${param.error != null}" th:text="${param.error}"></div>
 <div th:if="${param.success != null}" th:text="${param.success}"></div>
 
@@ -19,6 +20,7 @@
         <th>nombre</th>
         <th>precio</th>
         <th>fecha</th>
+        <th>categoría</th>
         <th>editar</th>
         <th>eliminar</th>
     </tr>
@@ -29,6 +31,7 @@
         <td th:text="${product.name}"></td>
         <td th:text="${product.price}"></td>
         <td th:text="${product.createAt}"></td>
+        <td th:text="${product.category.name}"></td>
         <td><a th:href="@{/form/} + ${product.id}">EDIT</a></td>
         <td><a th:href="@{/delete/} + ${product.id}"
                onclick="return confirm('Seguro que desea eliminar el producto')">

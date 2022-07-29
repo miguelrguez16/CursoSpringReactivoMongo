@@ -1,7 +1,8 @@
 package com.spring.reactive.spring.webflux;
 
-import com.spring.reactive.spring.webflux.models.dao.ProductsDao;
+import com.spring.reactive.spring.webflux.models.documents.Category;
 import com.spring.reactive.spring.webflux.models.documents.Product;
+import com.spring.reactive.spring.webflux.services.ProductService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,40 +17,45 @@ import java.util.Date;
 @SpringBootApplication
 public class Application implements CommandLineRunner {
 
-	@Autowired
-	private ProductsDao productsDao;
+    @Autowired
+    private ProductService productService;
 
-	@Autowired
-	private ReactiveMongoTemplate reactiveMongoTemplate;
+    @Autowired
+    private ReactiveMongoTemplate reactiveMongoTemplate;
 
-	private static final Logger log = LoggerFactory.getLogger(Application.class);
+    private static final Logger log = LoggerFactory.getLogger(Application.class);
 
-	public static void main(String[] args) {
-		SpringApplication.run(Application.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(Application.class, args);
+    }
 
-	@Override
-	public void run(String... args) throws Exception {
-		log.info("removing collection");
-		reactiveMongoTemplate.dropCollection("products")
-						.subscribe();
+    @Override
+    public void run(String... args) throws Exception {
+        log.info("removing collection");
+        reactiveMongoTemplate.dropCollection("products").subscribe();
+        reactiveMongoTemplate.dropCollection("categories").subscribe();
 
-		Flux.just(
-			new Product().setName("HP VICTUS").setPrice(999.99),
-			new Product().setName("TOSHIVA").setPrice(99.0),
-			new Product().setName("ASUS").setPrice(33.99),
-			new Product().setName("Realme").setPrice(9.99),
-			new Product().setName("Ryzen 5").setPrice(9.99),
-			new Product().setName("Tronsmart Element").setPrice(45.99),
-			new Product().setName("Ebook").setPrice(36.00),
-			new Product().setName("Huawei FreeBuds Pro").setPrice(119.99),
-			new Product().setName("Nvidia").setPrice(684784.99)
-		).flatMap( product ->{
-			product.setCreateAt(new Date());
-			return productsDao.save(product);
-		})
-				//obtiene el observable (flux o MOno) y lo aplana para crear un nuevo flujo de productos
-		.subscribe(product -> log.info(product.getName() + " -> [" + product.getId() + "]"));
-
-	}
+        Category marca = new Category().setName("MARCA");
+        Category cpu = new Category().setName("CPU");
+        Flux.just(marca, cpu)
+                .flatMap(productService::saveCategory)
+                .doOnNext(category -> log.info(category.toString()))
+				.thenMany(
+						Flux.just(
+										new Product().setName("HP VICTUS").setPrice(999.99).setCategory(marca),
+										new Product().setName("TOSHIVA").setPrice(99.0).setCategory(marca),
+										new Product().setName("ASUS").setPrice(33.99).setCategory(marca),
+										new Product().setName("Realme").setPrice(9.99).setCategory(marca),
+										new Product().setName("Ryzen 5").setPrice(9.99).setCategory(cpu),
+										new Product().setName("Intel").setPrice(45.99).setCategory(cpu),
+										new Product().setName("Snapdragon").setPrice(36.00).setCategory(cpu),
+										new Product().setName("Apple M1").setPrice(119.99).setCategory(cpu),
+										new Product().setName("Nvidia").setPrice(684784.99).setCategory(marca)
+								).flatMap(product -> {
+									product.setCreateAt(new Date());
+									return productService.saveProduct(product);
+								}).doOnNext(product -> log.info(product.toString()))
+				)
+                .subscribe();
+    }
 }

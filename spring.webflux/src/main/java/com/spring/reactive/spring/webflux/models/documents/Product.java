@@ -4,6 +4,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
@@ -22,6 +23,10 @@ public class Product {
     private Double price;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date createAt;
+    @Valid
+    private Category category;
+
+    private String photo;
 
     public String getId() {
         return id;
@@ -59,13 +64,33 @@ public class Product {
         return this;
     }
 
+    public Category getCategory() {
+        return category;
+    }
+
+    public Product setCategory(Category category) {
+        this.category = category;
+        return this;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public Product setPhoto(String photo) {
+        this.photo = photo;
+        return this;
+    }
+
     @Override
     public String toString() {
-        return "Producto{" +
+        return "Product{" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
+                ", photo='" + photo + '\'' +
                 ", price=" + price +
                 ", createAt=" + createAt +
+                ", category=" + category +
                 '}';
     }
 }

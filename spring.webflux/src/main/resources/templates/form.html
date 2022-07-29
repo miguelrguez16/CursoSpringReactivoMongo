@@ -3,39 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <title th:text="${titulo}">Title</title>
+    <link rel="stylesheet" href="../static/style.css" />
+
 </head>
 <body>
-<h1 th:text="${titulo}"></h1>
-<a th:href="@{/listar}">Listar Productos</a>
-<div>
-    <form th:action="@{/form}" method="post" th:object="${product}">
-        <input th:if="${product.id != null}" type="hidden" th:field="*{id}"/>
-        <label for="name">Nombre</label>
-        <div>
-            <input id="name" name="name" type="text" th:field="*{name}"/>
-        </div>
-        <small style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></small>
-        <br>
+    <h1> Spring Reactive</h1>
+    <h2 th:text="${titulo}"></h2>
+    <a th:href="@{/listar}">Listar Productos</a>
 
-        <label for="price">Precio</label>
-        <div>
-            <input id="price" name="price" type="number" th:field="*{price}"/>
-        </div>
-        <small style="color:red" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></small>
-        <br>
+        <form th:action="@{/form}" method="post" th:object="${product}" enctype="multipart/form-data">
+            <input th:if="${product.id != null}" type="hidden" th:field="*{id}"/>
+            <label for="name">Nombre</label>
+            <div>
+                <input id="name" name="name" type="text" th:field="*{name}"/>
+            </div>
+            <small style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></small>
+            <br>
 
-        <label for="createAt">Fecha</label>
-        <div>
-            <input id="createAt" name="createAt" type="date" th:field="*{createAt}"/>
-        </div>
-        <small style="color:red" th:if="${#fields.hasErrors('createAt')}" th:errors="*{createAt}"></small>
-        <br>
+            <label for="price">Precio</label>
+            <div>
+                <input id="price" name="price" type="number" th:field="*{price}"/>
+            </div>
+            <small style="color:red" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></small>
+            <br>
 
-        <label for="save">Guardar</label>
-        <div>
-            <input id="save" name="save" type="submit" th:text="${boton}"/>
-        </div>
-    </form>
-</div>
+            <label for="createAt">Fecha</label>
+            <div>
+                <input id="createAt" name="createAt" type="date" th:field="*{createAt}"/>
+            </div>
+            <small style="color:red" th:if="${#fields.hasErrors('createAt')}" th:errors="*{createAt}"></small>
+            <br>
+
+            <label for="category.id">Categoria</label>
+            <div>
+                <select th:field="*{category.id}">
+                    <option value="">-- SELECCIONAR --</option>
+                    <option th:each="category: ${categories}"
+                            th:value="${category.id}"
+                            th:text="${category.name}">
+                    </option>
+                </select>
+                <!--<small style="color:red" th:if="${#fields.hasErrors('category.id')}" th:errors="*{category.id}"></small>-->
+                <br>
+            </div>
+
+            <div>
+                <label for="file">File</label>
+                <div>
+                    <input type="file" name="file" id="file">
+                </div>
+            </div>
+
+            <label for="save">Guardar</label>
+            <div>
+                <input id="save" name="save" type="submit" th:text="${boton}"/>
+            </div>
+        </form>
+
 </body>
 </html>
