@@ -1,0 +1,20 @@
+
+*{
+    font-family: Arial, Calibri, serif;
+}
+h1 {
+    padding: 10px;
+}
+body {
+    margin-left: 20%;
+}
+thead {
+    text-transform: uppercase;
+}
+
+table {
+    margin-top: 10px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: black #ccc;
+}

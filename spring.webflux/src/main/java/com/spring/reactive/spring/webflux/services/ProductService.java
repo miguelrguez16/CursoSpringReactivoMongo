@@ -1,19 +1,30 @@
 package com.spring.reactive.spring.webflux.services;
 
+import com.spring.reactive.spring.webflux.models.documents.Category;
 import com.spring.reactive.spring.webflux.models.documents.Product;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 public interface ProductService {
 
-    Flux<Product> findAll();
+    Flux<Product> findAllProducts();
 
-    Flux<Product> findAllWithNameUpperCase();
+    Flux<Category> findAllCategories();
 
-    Mono<Product> findById(String id);
+    Flux<Product> findAllProductWithNameUpperCase();
 
-    Mono<Product> save(Product product);
+    Mono<Product> findProductById(String id);
 
-    Mono<Void> delete(Product product);
+    Mono<Product> saveProduct(Product product);
+
+    Mono<Void> deleteProduct(Product product);
+
+    Mono<Category> findCategoryById(String id);
+
+
+    Mono<Category> saveCategory(Category category);
+
+    Mono<Void> deleteCategory(Category category);
+
 
 }
