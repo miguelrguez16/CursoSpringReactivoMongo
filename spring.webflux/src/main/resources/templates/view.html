@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${titulo}">Title</title>
+    <link rel="stylesheet" href="../static/style.css" />
+</head>
+<body>
+
+<h1> Spring Reactive</h1>
+<h2 th:text="${titulo}"></h2>
+    <section>
+        <ul>
+            <li th:text="${product.name}"></li>
+            <li th:text="'Id: ' + ${product.id}"></li>
+            <li th:text="'Precio: ' + ${product.price}"></li>
+            <li th:text="'Fecha creacion: ' + ${product.createAt}"></li>
+            <li> <img alt="image of the product"
+                      th:if="${product.photo != null && #strings.length(product.photo)>0}"
+                      th:src="@{/uploads/img/} + ${product.photo}">
+            </li>
+        </ul>
+    </section>
+</body>
+</html>
