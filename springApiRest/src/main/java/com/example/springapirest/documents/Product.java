@@ -1,4 +1,4 @@
-package com.example.springApiRest.documents;
+package com.example.springapirest.documents;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;

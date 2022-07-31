@@ -1,7 +1,7 @@
-package com.example.springApiRest.services;
+package com.example.springapirest.services;
 
-import com.example.springApiRest.documents.Category;
-import com.example.springApiRest.documents.Product;
+import com.example.springapirest.documents.Category;
+import com.example.springapirest.documents.Product;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
