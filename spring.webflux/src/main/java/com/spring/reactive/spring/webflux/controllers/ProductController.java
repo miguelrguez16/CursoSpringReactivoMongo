@@ -44,6 +44,7 @@ public class ProductController {
 
     private static final Logger log = LoggerFactory.getLogger(ProductController.class);
 
+
     @ModelAttribute("categories")
     public Flux<Category> categories() {
         return productService.findAllCategories();
