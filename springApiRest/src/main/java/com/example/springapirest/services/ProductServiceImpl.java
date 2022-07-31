@@ -1,9 +1,9 @@
-package com.example.springApiRest.services;
+package com.example.springapirest.services;
 
-import com.example.springApiRest.dao.CategoryDao;
-import com.example.springApiRest.dao.ProductsDao;
-import com.example.springApiRest.documents.Category;
-import com.example.springApiRest.documents.Product;
+import com.example.springapirest.dao.CategoryDao;
+import com.example.springapirest.dao.ProductsDao;
+import com.example.springapirest.documents.Category;
+import com.example.springapirest.documents.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;

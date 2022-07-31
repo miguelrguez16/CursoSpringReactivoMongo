@@ -1,8 +1,8 @@
-package com.example.springApiRest;
+package com.example.springapirest;
 
-import com.example.springApiRest.documents.Category;
-import com.example.springApiRest.documents.Product;
-import com.example.springApiRest.services.ProductService;
+import com.example.springapirest.documents.Category;
+import com.example.springapirest.documents.Product;
+import com.example.springapirest.services.ProductService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
