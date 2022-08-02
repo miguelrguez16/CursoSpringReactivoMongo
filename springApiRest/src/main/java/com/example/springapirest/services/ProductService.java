@@ -26,5 +26,4 @@ public interface ProductService {
 
     Mono<Void> deleteCategory(Category category);
 
-
 }

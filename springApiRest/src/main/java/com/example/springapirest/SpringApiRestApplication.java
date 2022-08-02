@@ -24,6 +24,7 @@ public class SpringApiRestApplication implements CommandLineRunner {
 
 	@Autowired
 	private ReactiveMongoTemplate reactiveMongoTemplate;
+
 	public static void main(String[] args) {
 		SpringApplication.run(SpringApiRestApplication.class, args);
 	}
