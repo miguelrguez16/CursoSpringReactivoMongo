@@ -20,6 +20,8 @@ import java.io.File;
 import java.net.URI;
 import java.util.*;
 
+import static com.example.springapirest.utils.Utils.customName;
+
 @RestController
 @RequestMapping("/api/products")
 public class ProductController {
@@ -130,8 +132,7 @@ public class ProductController {
     public Mono<ResponseEntity<Product>> uploadImage(@PathVariable String id, @RequestPart FilePart file) {
         return productService.findProductById(id)
                 .flatMap(product -> {
-                    product.setPhoto(UUID.randomUUID().toString().concat(file.filename())
-                            .replace(" ", "").replace("//", "").replace(":", ""));
+                    product.setPhoto(customName(file.filename()));
                     return file.transferTo(new File(path.concat(product.getPhoto()))).then(productService.saveProduct(product));
                 }).map(ResponseEntity::ok)
                 .defaultIfEmpty(ResponseEntity.notFound().build());
