@@ -64,4 +64,10 @@ public class ProductServiceImpl implements ProductService{
         return categoryDao.delete(category);
     }
 
+    @Override
+    public Mono<Product> findByNameContainsIgnoreCase(String name) {
+        return productsDao.findByNameContainsIgnoreCase(name);
+    }
+
+
 }

@@ -26,4 +26,7 @@ public interface ProductService {
 
     Mono<Void> deleteCategory(Category category);
 
+    Mono<Product> findByNameContainsIgnoreCase(String name);
+
+
 }
