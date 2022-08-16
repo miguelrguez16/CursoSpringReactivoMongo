@@ -109,7 +109,8 @@ public class ProductHandler {
                             .setPrice(req.getPrice())
                             .setCategory(req.getCategory());
                     return db;
-                }).flatMap(product -> ServerResponse.created(URI.create("/api/v2/products/".concat(product.getId())))
+                }).flatMap(product ->
+                        ServerResponse.created(URI.create("/api/v2/products/".concat(product.getId())))
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(BodyInserters.fromValue(product)))
                 .switchIfEmpty(ServerResponse.notFound().build());

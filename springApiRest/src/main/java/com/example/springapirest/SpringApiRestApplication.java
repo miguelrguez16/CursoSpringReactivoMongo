@@ -37,6 +37,8 @@ public class SpringApiRestApplication implements CommandLineRunner {
 
 		Category marca = new Category().setName("MARCA");
 		Category cpu = new Category().setName("CPU");
+		Category electronic = new Category().setName("ELECTRONIC");
+
 		Flux.just(marca, cpu)
 				.flatMap(productService::saveCategory)
 				.doOnNext(category -> log.info(category.toString()))
@@ -50,7 +52,9 @@ public class SpringApiRestApplication implements CommandLineRunner {
 								new Product().setName("Intel").setPrice(45.99).setCategory(cpu),
 								new Product().setName("Snapdragon").setPrice(36.00).setCategory(cpu),
 								new Product().setName("Apple M1").setPrice(119.99).setCategory(cpu),
-								new Product().setName("Nvidia").setPrice(684784.99).setCategory(marca)
+								new Product().setName("Nvidia").setPrice(684784.99).setCategory(marca),
+								new Product().setName("Hub Green").setPrice(23.1).setCategory(electronic),
+								new Product().setName("Watch").setPrice(1000.0).setCategory(electronic)
 						).flatMap(product -> {
 							product.setCreateAt(new Date());
 							return productService.saveProduct(product);
