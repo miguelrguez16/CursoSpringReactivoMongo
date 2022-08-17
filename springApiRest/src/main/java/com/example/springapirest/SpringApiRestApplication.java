@@ -39,7 +39,7 @@ public class SpringApiRestApplication implements CommandLineRunner {
 		Category cpu = new Category().setName("CPU");
 		Category electronic = new Category().setName("ELECTRONIC");
 
-		Flux.just(marca, cpu)
+		Flux.just(marca, cpu, electronic)
 				.flatMap(productService::saveCategory)
 				.doOnNext(category -> log.info(category.toString()))
 				.thenMany(
@@ -61,5 +61,8 @@ public class SpringApiRestApplication implements CommandLineRunner {
 						}).doOnNext(product -> log.info(product.toString()))
 				)
 				.subscribe();
+
+		log.info("updated collection");
+
 	}
 }
