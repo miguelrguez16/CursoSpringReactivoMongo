@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.web.reactive.function.BodyInserters;
@@ -28,10 +27,6 @@ class SpringApiRestApplicationTests {
 
     @Autowired
     private ProductService productService;
-
-    @Autowired
-    private ReactiveMongoTemplate reactiveMongoTemplate;
-
 
     @Test
     void listProductsTest() {
