@@ -10,6 +10,6 @@ public interface ProductService {
     Mono<Product> findProductById(String id);
     Mono<Product> saveProduct(Product product);
     Mono<Product> updateProduct(Product product, String id);
-    Mono<Product> deleteProduct(String id);
+    Mono<Void> deleteProduct(String id);
 
 }
