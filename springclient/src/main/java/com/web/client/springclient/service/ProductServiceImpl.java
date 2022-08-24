@@ -45,7 +45,7 @@ public class ProductServiceImpl implements ProductService {
      */
     @Override
     public Mono<Product> findProductById(String id) {
-        if (id.isBlank() || id.length() < 25) return Mono.just(new Product().setName("Error"));
+        if (id.isBlank() || id.length() < 24) return Mono.just(new Product().setName("Error"));
         return client.get()
                 .uri("/{id}", Collections.singletonMap("id",id))
                 .accept(MediaType.APPLICATION_JSON)
@@ -80,7 +80,7 @@ public class ProductServiceImpl implements ProductService {
      */
     @Override
     public Mono<Product> updateProduct(Product product, String id) {
-        if (id.isBlank() || id.length() < 25) return Mono.just(new Product().setName("Error id: update"));
+        if (id.isBlank() || id.length() < 24) return Mono.just(new Product().setName("Error id: update"));
         return client.put()
                 .uri("/{id}", Collections.singletonMap("id",id))
                 .accept(MediaType.APPLICATION_JSON)
@@ -99,7 +99,7 @@ public class ProductServiceImpl implements ProductService {
      */
     @Override
     public Mono<Void> deleteProduct(String id) {
-        if (id.isBlank() || id.length() < 25) return Mono.error(new RuntimeException("Product not found"));
+        if (id.isBlank() || id.length() < 24) return Mono.error(new RuntimeException("Product not found"));
         return client.delete()
                 .uri("/{id}", Collections.singletonMap("id",id))
                 .accept(MediaType.APPLICATION_JSON)
@@ -107,4 +107,6 @@ public class ProductServiceImpl implements ProductService {
                 .then()
                 ;
     }
+
+
 }
