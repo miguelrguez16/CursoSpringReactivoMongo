@@ -19,6 +19,7 @@ public class RouterConfig {
                 .andRoute(RequestPredicates.POST(DEFAULT_ROUTE), handler::create)
                 .andRoute(RequestPredicates.PUT(DEFAULT_ROUTE_ID), handler::edit)
                 .andRoute(RequestPredicates.DELETE(DEFAULT_ROUTE_ID), handler::delete)
+                .andRoute(RequestPredicates.POST(DEFAULT_ROUTE_ID), handler::upload)
                 ;
     }
 }
