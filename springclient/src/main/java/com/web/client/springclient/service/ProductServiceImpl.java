@@ -2,8 +2,11 @@ package com.web.client.springclient.service;
 
 import com.web.client.springclient.dto.Product;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.client.MultipartBodyBuilder;
+import org.springframework.http.codec.multipart.FilePart;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -94,18 +97,33 @@ public class ProductServiceImpl implements ProductService {
     }
 
     /**
-     * @param id
-     * @return
+     * @param id  of the product to remove
+     * @return Mono<Void>
      */
     @Override
     public Mono<Void> deleteProduct(String id) {
         if (id.isBlank() || id.length() < 24) return Mono.error(new RuntimeException("Product not found"));
         return client.delete()
                 .uri("/{id}", Collections.singletonMap("id",id))
-                .accept(MediaType.APPLICATION_JSON)
-                .exchangeToMono(clientResponse -> Mono.just(clientResponse.headers()))
-                .then()
-                ;
+                .retrieve()
+                .bodyToMono(Void.class);
+//                .exchangeToMono(clientResponse -> Mono.just(clientResponse.headers()))
+//                .then()
+    }
+
+
+
+    @Override
+    public Mono<Product> uploadImage(FilePart file, String id) {
+        MultipartBodyBuilder multipartBodyBuilder = new MultipartBodyBuilder();
+        multipartBodyBuilder.asyncPart("file", file.content(), DataBuffer.class)
+                .headers(httpHeaders -> httpHeaders.setContentDispositionFormData("file",file.filename()));
+
+        return client.post().uri("/upload/{id}", Collections.singletonMap("id",id))
+                .contentType(MediaType.MULTIPART_FORM_DATA)
+                .bodyValue(multipartBodyBuilder.build())
+                .retrieve()
+                .bodyToMono(Product.class);
     }
 
 
