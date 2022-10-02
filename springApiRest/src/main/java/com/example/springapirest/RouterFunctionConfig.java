@@ -25,6 +25,7 @@ public class RouterFunctionConfig {
                 .andRoute(POST(DEFAULT_URI_ID), productHandler::upload)
                 .andRoute(POST(DEFAULT_URI), productHandler::saveAndUpload);
 
-    }   // indicate response type is JSON with .and(contentType(MediaType.APPLICATION_JSON))
+    }
+    // indicate response type is JSON with .and(contentType(MediaType.APPLICATION_JSON))
     // the request must have indicated content-type: json
 }
