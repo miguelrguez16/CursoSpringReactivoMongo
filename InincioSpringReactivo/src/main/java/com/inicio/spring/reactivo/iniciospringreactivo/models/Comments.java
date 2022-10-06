@@ -1,4 +1,4 @@
-package com.inicio.spring.reactivo.InincioSpringReactivo.models;
+package com.inicio.spring.reactivo.iniciospringreactivo.models;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.inicio.spring.reactivo.InincioSpringReactivo;
+package com.inicio.spring.reactivo.iniciospringreactivo;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
