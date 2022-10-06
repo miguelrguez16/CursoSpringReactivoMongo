@@ -1,4 +1,4 @@
-package com.inicio.spring.reactivo.InincioSpringReactivo.models;
+package com.inicio.spring.reactivo.iniciospringreactivo.models;
 
 public class User {
     private String name, lastName;

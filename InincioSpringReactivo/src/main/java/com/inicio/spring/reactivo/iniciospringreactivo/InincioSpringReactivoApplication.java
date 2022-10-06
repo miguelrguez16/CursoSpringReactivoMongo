@@ -1,9 +1,8 @@
-package com.inicio.spring.reactivo.InincioSpringReactivo;
+package com.inicio.spring.reactivo.iniciospringreactivo;
 
-import com.inicio.spring.reactivo.InincioSpringReactivo.models.Comments;
-import com.inicio.spring.reactivo.InincioSpringReactivo.models.User;
-import com.inicio.spring.reactivo.InincioSpringReactivo.models.UserWithComments;
-import org.apache.commons.logging.Log;
+import com.inicio.spring.reactivo.iniciospringreactivo.models.Comments;
+import com.inicio.spring.reactivo.iniciospringreactivo.models.User;
+import com.inicio.spring.reactivo.iniciospringreactivo.models.UserWithComments;
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
 import org.slf4j.Logger;
