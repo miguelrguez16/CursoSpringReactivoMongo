@@ -66,6 +66,15 @@ public class ProductController {
                 ).defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
+    @GetMapping("/names")
+    public Mono<ResponseEntity<Flux<Map<String,String>>>> nameFilms(){
+        return Mono.just(
+                ResponseEntity.ok()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(productService.listAllFilmNames())
+        );
+    }
+
     /**
      * Save product
      *

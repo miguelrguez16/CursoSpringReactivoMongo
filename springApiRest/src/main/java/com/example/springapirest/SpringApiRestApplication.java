@@ -9,12 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
 import reactor.core.publisher.Flux;
 
 import java.util.Date;
-@EnableEurekaClient
 @SpringBootApplication
 public class SpringApiRestApplication implements CommandLineRunner {
 
@@ -42,24 +40,25 @@ public class SpringApiRestApplication implements CommandLineRunner {
 
 		Flux.just(marca, cpu, electronic)
 				.flatMap(productService::saveCategory)
-				.doOnNext(category -> log.info(category.toString()))
+				//.doOnNext(category -> log.info(category.toString()))
 				.thenMany(
 						Flux.just(
-								new Product().setName("HP VICTUS").setPrice(999.99).setCategory(marca),
+								new Product().setName("HP_VICTUS").setPrice(999.99).setCategory(marca),
 								new Product().setName("TOSHIVA").setPrice(99.0).setCategory(marca),
 								new Product().setName("ASUS").setPrice(33.99).setCategory(marca),
 								new Product().setName("Realme").setPrice(9.99).setCategory(marca),
-								new Product().setName("Ryzen 5").setPrice(9.99).setCategory(cpu),
+								new Product().setName("Ryzen_5").setPrice(9.99).setCategory(cpu),
 								new Product().setName("Intel").setPrice(45.99).setCategory(cpu),
 								new Product().setName("Snapdragon").setPrice(36.00).setCategory(cpu),
-								new Product().setName("Apple M1").setPrice(119.99).setCategory(cpu),
+								new Product().setName("Apple_M1").setPrice(119.99).setCategory(cpu),
 								new Product().setName("Nvidia").setPrice(684784.99).setCategory(marca),
-								new Product().setName("Hub Green").setPrice(23.1).setCategory(electronic),
+								new Product().setName("Hub_Green").setPrice(23.1).setCategory(electronic),
 								new Product().setName("Watch").setPrice(1000.0).setCategory(electronic)
 						).flatMap(product -> {
 							product.setCreateAt(new Date());
 							return productService.saveProduct(product);
-						}).doOnNext(product -> log.info(product.toString()))
+						})
+								//.doOnNext(product -> log.info(product.toString()))
 				)
 				.subscribe();
 
