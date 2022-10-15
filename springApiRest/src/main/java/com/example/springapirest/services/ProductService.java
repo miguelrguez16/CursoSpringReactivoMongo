@@ -5,6 +5,8 @@ import com.example.springapirest.documents.Product;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.Map;
+
 public interface ProductService {
 
     Flux<Product> findAllProducts();
@@ -30,5 +32,6 @@ public interface ProductService {
 
     Mono<Category> findCategoryByNameContainsIgnoreCase(String name);
 
+    Flux<Map<String,String>> listAllFilmNames();
 
 }
