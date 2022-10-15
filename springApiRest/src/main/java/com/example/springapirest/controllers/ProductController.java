@@ -75,6 +75,15 @@ public class ProductController {
         );
     }
 
+    @GetMapping("/countCategories")
+    public Mono<ResponseEntity<Flux<Map<String,Object>>>> totalCategoriesByProducts(){
+        return Mono.just(
+                ResponseEntity.ok()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(productService.getTotalProductsByCategory())
+        );
+    }
+
     /**
      * Save product
      *
