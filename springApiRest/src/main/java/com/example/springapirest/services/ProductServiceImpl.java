@@ -4,8 +4,6 @@ import com.example.springapirest.dao.CategoryDao;
 import com.example.springapirest.dao.ProductsDao;
 import com.example.springapirest.documents.Category;
 import com.example.springapirest.documents.Product;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
@@ -15,8 +13,6 @@ import java.util.Map;
 
 @Service
 public class ProductServiceImpl implements ProductService{
-    private static final Logger log = LoggerFactory.getLogger(ProductServiceImpl.class);
-
     @Autowired
     private ProductsDao productsDao;
 
@@ -46,7 +42,6 @@ public class ProductServiceImpl implements ProductService{
     @Override
     public Mono<Product> saveProduct(Product product) {
         return productsDao.save(product);
-//        return product.getId()== null ? productsDao.save(product) : productsDao.insert(product);
     }
 
     @Override
@@ -81,7 +76,13 @@ public class ProductServiceImpl implements ProductService{
 
     @Override
     public Flux<Map<String,String>> listAllFilmNames() {
-        return productsDao.getAllfilmNames()
-                .doOnNext(s -> log.info("NAMES: ".concat(s.toString())));
+        return productsDao.getAllfilmNames();
+
     }
+
+    @Override
+    public Flux<Map<String, Object>> getTotalProductsByCategory() {
+        return productsDao.getTotalProductsByCategory();
+    }
+
 }

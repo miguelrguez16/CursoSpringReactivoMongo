@@ -34,4 +34,6 @@ public interface ProductService {
 
     Flux<Map<String,String>> listAllFilmNames();
 
+    Flux<Map<String,Object>> getTotalProductsByCategory();
+
 }

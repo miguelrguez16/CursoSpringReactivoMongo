@@ -14,9 +14,6 @@ public interface ProductsDao extends ReactiveMongoRepository<Product, String> {
 
     Mono<Product> findByNameContainsIgnoreCase(String name);
 
-//    @Query("{'name' :  ?0}")
-//    Mono<Product> obteinProductByName(String name);
-
     @Query("{'name' :  ?0}")
     Flux<Product> findProductsByNameLimited(String name);
 
@@ -24,5 +21,11 @@ public interface ProductsDao extends ReactiveMongoRepository<Product, String> {
             "{ $group : { _id:  $name}}"
     })
     Flux<Map<String,String>> getAllfilmNames();
+
+    @Aggregation({
+            "{ $group : { _id: \"$category.name\" ,count:  {$sum: 1}}}"
+    })
+    Flux<Map<String,Object>> getTotalProductsByCategory();
 }
 
+//"{ $group : { _id : $skills, names : { $push : $name } } }"
