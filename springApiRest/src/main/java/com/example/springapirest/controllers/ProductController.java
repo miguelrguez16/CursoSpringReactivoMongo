@@ -1,7 +1,7 @@
 package com.example.springapirest.controllers;
 
 import com.example.springapirest.documents.Product;
-import com.example.springapirest.services.ProductService;
+import com.example.springapirest.services.com.ProductService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,7 +75,7 @@ public class ProductController {
         );
     }
 
-    @GetMapping("/countCategories")
+    @GetMapping("/categoriesCount")
     public Mono<ResponseEntity<Flux<Map<String,Object>>>> totalCategoriesByProducts(){
         return Mono.just(
                 ResponseEntity.ok()

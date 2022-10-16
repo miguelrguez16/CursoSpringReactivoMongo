@@ -2,7 +2,7 @@ package com.example.springapirest;
 
 import com.example.springapirest.documents.Category;
 import com.example.springapirest.documents.Product;
-import com.example.springapirest.services.ProductService;
+import com.example.springapirest.services.com.ProductService;
 import com.example.springapirest.utils.Utils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Assertions;

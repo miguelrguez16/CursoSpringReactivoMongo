@@ -2,13 +2,12 @@ package com.example.springapirest.handler;
 
 import com.example.springapirest.documents.Category;
 import com.example.springapirest.documents.Product;
-import com.example.springapirest.services.ProductService;
+import com.example.springapirest.services.com.ProductService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.http.codec.multipart.FilePart;
 import org.springframework.http.codec.multipart.FormFieldPart;
 import org.springframework.stereotype.Component;
@@ -22,7 +21,6 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.io.File;
-import java.net.ResponseCache;
 import java.net.URI;
 import java.util.Date;
 

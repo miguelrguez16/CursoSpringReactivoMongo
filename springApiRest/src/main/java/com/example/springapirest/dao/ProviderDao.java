@@ -9,5 +9,7 @@ public interface ProviderDao extends ReactiveMongoRepository<Provider, String> {
 
     Mono<Provider> findByCompany(String company);
 
-    Flux<Provider> findByCompanyAndPhoneAndNote(String company, String phone, String note);
+    Flux<Provider> findByCompanyAndPhone(String company, String phone);
+
+
 }

@@ -1,9 +1,10 @@
-package com.example.springapirest.services;
+package com.example.springapirest.services.imp;
 
 import com.example.springapirest.dao.CategoryDao;
 import com.example.springapirest.dao.ProductsDao;
 import com.example.springapirest.documents.Category;
 import com.example.springapirest.documents.Product;
+import com.example.springapirest.services.com.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
@@ -12,7 +13,7 @@ import reactor.core.publisher.Mono;
 import java.util.Map;
 
 @Service
-public class ProductServiceImpl implements ProductService{
+public class ProductServiceImpl implements ProductService {
     @Autowired
     private ProductsDao productsDao;
 
