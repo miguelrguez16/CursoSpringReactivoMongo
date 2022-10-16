@@ -57,4 +57,14 @@ public class Provider {
         this.note = note;
         return this;
     }
+
+    @Override
+    public String toString() {
+        return "Provider{" +
+                "id='" + id + '\'' +
+                ", company='" + company + '\'' +
+                ", phone='" + phone + '\'' +
+                ", note='" + note + '\'' +
+                '}';
+    }
 }

@@ -1,4 +1,4 @@
-package com.example.springapirest.services;
+package com.example.springapirest.services.com;
 
 import com.example.springapirest.documents.Category;
 import com.example.springapirest.documents.Product;

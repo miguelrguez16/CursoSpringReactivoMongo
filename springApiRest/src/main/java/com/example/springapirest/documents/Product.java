@@ -29,6 +29,8 @@ public class Product {
 
     private String photo;
 
+    private Provider productProvider;
+
     public String getId() {
         return id;
     }
@@ -83,15 +85,25 @@ public class Product {
         return this;
     }
 
+    public Provider getProductProvider() {
+        return productProvider;
+    }
+
+    public Product setProductProvider(Provider productProvider) {
+        this.productProvider = productProvider;
+        return this;
+    }
+
     @Override
     public String toString() {
         return "Product{" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
-                ", photo='" + photo + '\'' +
                 ", price=" + price +
                 ", createAt=" + createAt +
                 ", category=" + category +
+                ", photo='" + photo + '\'' +
+                ", productProvider=" + productProvider +
                 '}';
     }
 }
