@@ -1,10 +1,7 @@
 package com.example.springapirest;
 
 import com.example.springapirest.documents.*;
-import com.example.springapirest.services.com.CustomerService;
-import com.example.springapirest.services.com.FacturaService;
-import com.example.springapirest.services.com.ProductService;
-import com.example.springapirest.services.com.ProviderService;
+import com.example.springapirest.services.com.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,13 +22,15 @@ public class SpringApiRestApplication implements CommandLineRunner {
 
     @Autowired
     private ProductService productService;
-
     @Autowired
     private ProviderService providerService;
     @Autowired
     private CustomerService customerService;
     @Autowired
     private FacturaService facturaService;
+
+    @Autowired
+    private UserService userService;
 
     @Autowired
     private ReactiveMongoTemplate reactiveMongoTemplate;
@@ -47,7 +46,9 @@ public class SpringApiRestApplication implements CommandLineRunner {
         reactiveMongoTemplate.dropCollection("categories").subscribe();
         reactiveMongoTemplate.dropCollection("provider").subscribe();
         reactiveMongoTemplate.dropCollection("customer").subscribe();
-
+        reactiveMongoTemplate.dropCollection("factura").subscribe();
+        reactiveMongoTemplate.dropCollection("user").subscribe();
+        reactiveMongoTemplate.dropCollection("role").subscribe();
 
         Category foodCategory = new Category().setName("FOOD");
         Category drinksCategory = new Category().setName("DRINKS");
@@ -84,26 +85,35 @@ public class SpringApiRestApplication implements CommandLineRunner {
         Flux.just(foodCategory, drinksCategory, electronicCategory, clothesCategory)
                 .flatMap(productService::saveCategory)
                 //.doOnNext(category -> log.info(category.toString()))
-                .thenMany((
+                .thenMany(
+                            (
                                 Flux.just(tmp1, tmp2, tmp3, tmp4, tmp5, tmp6, tmp7, tmp8, tmp9, tmp10, tmp11,tmp12,tmp13,tmp14,tmp15,tmp16,tmp17,tmp18)
-                        ).flatMap(product -> {
-                            product.setCreateAt(new Date());
-                            return productService.saveProduct(product);
-                        }).doOnNext(product -> log.info(product.toString()))
-                ).subscribe();
+                            ).flatMap(product -> {
+                                product.setCreateAt(new Date());
+                                return productService.saveProduct(product);
+                            }).doOnNext(product -> log.info(product.toString()))
+                ).blockLast();
         List<Product> listaProductosFacturea = new ArrayList<>();
-        productService.findAllProducts().map(listaProductosFacturea::add).subscribe();
+        productService.findAllProducts().map(listaProductosFacturea::add).blockLast();
 
         Factura factura1 = new Factura().setProductList(listaProductosFacturea).setInvoiceDate(new Date());
         listaProductosFacturea.removeIf(product -> product.getName()=="dress");
         Factura factura2 = new Factura().setProductList(listaProductosFacturea).setInvoiceDate(new Date());
 
-
-        List<Factura> facturaList = new ArrayList<>();facturaList.add(factura1);facturaList.add(factura2);
+        Flux.just(factura1,factura2)
+                .flatMap(facturaService::saveFactura)
+                .blockFirst();
+        List<Factura> facturaList = new ArrayList<>();
+        facturaService.findAllFactura().map(facturaList::add).blockFirst();
         Customer customer1 = new Customer().setName("John").setLastnames("Blank").setFacturaList(facturaList);
+        System.out.println(customer1.toString());
+        Flux.just(customer1).flatMap(customerService::saveCustomer).blockFirst();
 
-        Flux.just(factura1, factura2).flatMap(facturaService::saveFactura).subscribe();
-        Flux.just(customer1).flatMap(customerService::saveCustomer).subscribe();
+        Role r = new Role().setType("ADMIN");
+        r = userService.saveRole(r).block();
+
+        User u = new User().setUsername("ADMIN").setPassword("ADMIN").addRole(r);
+        userService.saveUser(u).subscribe();
         log.info("updated collection");
 
     }
