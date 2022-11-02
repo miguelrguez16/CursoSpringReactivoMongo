@@ -26,6 +26,7 @@ public class FacturaServiceImpl implements FacturaService {
 
     @Override
     public Mono<Factura> saveFactura(Factura factura) {
+        System.out.println("saving: ".concat(factura.toString()));
         return facturaDao.save(factura);
     }
 

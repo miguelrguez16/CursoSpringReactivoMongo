@@ -59,5 +59,13 @@ public class Customer {
         return this;
     }
 
-
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", lastnames='" + lastnames + '\'' +
+                ", facturaList=" + facturaList +
+                '}';
+    }
 }
