@@ -14,7 +14,11 @@ To run this project, you will need to add the following environment variables to
 
 ## Documentation
 
-[baeldung - Spring reactive Guide](https://www.baeldung.com/spring-reactive-guide
+[baeldung - Spring reactive Guide](https://www.baeldung.com/spring-reactive-guide)
+
 [MONGO DB REACTIVE FOR JAVA](https://mongodb.github.io/mongo-java-driver/4.6/driver-reactive/tutorials/)
+
 [SPRING REACTIVE DOCUMENTATION - projectreactor](https://projectreactor.io/docs/core/release/reference/)
+
 [SPRING REACTIVE EXAMPLE](https://hantsy.github.io/spring-reactive-sample/preface.html)
+
