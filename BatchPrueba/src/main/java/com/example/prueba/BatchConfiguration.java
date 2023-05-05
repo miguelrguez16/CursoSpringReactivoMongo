@@ -39,11 +39,8 @@ public class BatchConfiguration extends DefaultBatchConfigurer {
     public void setDataSource(DataSource dataSource) {
         //This BatchConfigurer ignores any DataSource
     }
-    /**
-     * READER FOR STEP
-     *
-     * @return
-     */
+
+
     @Bean
     public ItemReader<Coffee> reader() {
         FlatFileItemReader<Coffee> reader = new FlatFileItemReader<>();
@@ -60,11 +57,6 @@ public class BatchConfiguration extends DefaultBatchConfigurer {
                 reader;
     }
 
-    /**
-     * ITEM WRITER FOR STEP
-     *
-     * @return
-     */
     @Bean
     public ItemWriter<Coffee> writer() {
         FlatFileItemWriter<Coffee> writer = new FlatFileItemWriter<>();
@@ -92,19 +84,12 @@ public class BatchConfiguration extends DefaultBatchConfigurer {
         return new TransformItemProcessor();
     }
 
-    /**
-     * Configurar JOB
-     *
-     * @param jobs
-     * @param s1
-     * @param listener
-     * @return
-     */
+
     @Bean
-    public Job tareaJob(JobBuilderFactory jobs, Step s1) {
+    public Job tareaJob(JobBuilderFactory jobs, Step step1) {
         return jobs.get("tareaJob")
                 .incrementer(new RunIdIncrementer())
-                .flow(s1)
+                .flow(step1)
                 .end().build();
     }
 
@@ -117,12 +102,5 @@ public class BatchConfiguration extends DefaultBatchConfigurer {
                 .writer(coffeeItemWriter)
                 .processor(coffeeItemProcessor).build();
     }
-
-//
-//    @Bean
-//    public DataSource dataSource(){
-//        final DriverManagerDataSource dataSource = new DriverManagerDataSource();
-//        return dataSource;
-//    }
 
 }

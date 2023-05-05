@@ -12,7 +12,7 @@ public class TransformItemProcessor implements ItemProcessor<Coffee, Coffee> {
 
     @Override
     public Coffee process(Coffee currentCoffee) throws Exception {
-        Coffee tmp = new Coffee(currentCoffee.getBrand().toUpperCase(),currentCoffee.getOrigin(),currentCoffee.getCharacteristics());
-        return tmp;
+        log.info(" Proccessing a new list Coffe " + currentCoffee.toString());
+        return new Coffee(currentCoffee.getBrand().toUpperCase(),currentCoffee.getOrigin(),currentCoffee.getCharacteristics());
     }
 }

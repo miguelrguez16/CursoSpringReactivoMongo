@@ -39,4 +39,13 @@ public class Coffee {
     public void setCharacteristics(String characteristics) {
         this.characteristics = characteristics;
     }
+
+    @Override
+    public String toString() {
+        return "Coffee{" +
+                "brand='" + brand + '\'' +
+                ", origin='" + origin + '\'' +
+                ", characteristics='" + characteristics + '\'' +
+                '}';
+    }
 }

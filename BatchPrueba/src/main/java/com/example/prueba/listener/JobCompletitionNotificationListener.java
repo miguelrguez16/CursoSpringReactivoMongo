@@ -13,7 +13,7 @@ public class JobCompletitionNotificationListener extends JobExecutionListenerSup
     @Override
     public void afterJob(JobExecution jobExecution) {
         if (jobExecution.getStatus() == BatchStatus.COMPLETED) {
-            log.info("COMPLETED");
+            log.info("Job Executed --> COMPLETED");
         } else {
             log.error("Something bad happends");
         }
